@@ -11,6 +11,12 @@
 namespace Enc
 {
 
+//******************************************************************************
+/// Namespace with usefull funktions/typedefs/constansts to parse/write ISO8211 Files
+/*!
+* REM: Several functions are plattform dependent because of byte-order, but:
+*      Until now, only x86 Byte-order is implemented 
+***************************************************************************** */
 namespace ISO8211
 {
     typedef unsigned long long LongNAMe;  ///must be a 64 Bit type, not a real int, holds content of FOID, used as handle
