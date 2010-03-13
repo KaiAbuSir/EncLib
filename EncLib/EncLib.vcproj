@@ -515,6 +515,10 @@
 				RelativePath="..\incl\s57updater.h"
 				>
 			</File>
+			<File
+				RelativePath="..\incl\version.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Ressourcendateien"
