@@ -8,6 +8,7 @@
 
 #include "boundingbox_degrees.h"
 #include <math.h>
+#include <assert.h>
 
 using namespace Enc;
 
@@ -16,6 +17,17 @@ using namespace Enc;
 DegBBox::DegBBox(const QString & bbString) : SLAT(0), WLON(0), NLAT(0), ELON(0)
 {
     fromString(bbString);
+}
+
+double DegBBox::centerLon() const 
+{
+    if (stripe) return 0;
+    else if (crossesDateLine())
+    {
+        double ret = (WLON + ELON + 360) /2.0;
+        return (ret > 180 ? ret - 180.0 : ret);
+    }
+    return (ELON + WLON) / 2.0;
 }
 
 //******************************************************************************
@@ -29,6 +41,7 @@ void DegBBox::add(double lat, double lon)
     {
         SLAT = NLAT = lat;
         WLON = ELON = lon;
+        assert(SLAT >= -90 && NLAT <= 90 && WLON >= -180 && ELON <= 180 && NLAT >= SLAT);
         return;
     }
     //** Trivial: Latitude **
@@ -47,7 +60,7 @@ void DegBBox::add(double lat, double lon)
     }
     else 
     {
-        if (lon < ELON || lon > WLON) return;
+        if (lon < ELON && lon > WLON) return;
         //** take the shorter way -> maybe rect will cross dateline then **
         if (lon < WLON)
         {
@@ -60,6 +73,8 @@ void DegBBox::add(double lat, double lon)
             else WLON = lon;
         }
     }
+
+    assert(SLAT >= -90 && NLAT <= 90 && WLON >= -180 && ELON <= 180 && NLAT >= SLAT);
 }
 
 void DegBBox::add(const DegBBox & otherBB)
@@ -135,15 +150,15 @@ void DegBBox::add(const DegBBox & otherBB)
         //** most likely: no BBox crosses Dateline **
         else
         {
-            //** 1st: if BBoxes overlapp **
-            if (otherBB.WLON >= WLON && otherBB.ELON <= ELON) return;
-            else if (otherBB.WLON <= WLON && otherBB.ELON >= ELON)
+            //** 1st - simple: if BBoxes overlapp **
+            if (otherBB.WLON >= WLON && otherBB.ELON <= ELON) return;  //otherBB inside this BB
+            else if (otherBB.WLON <= WLON && otherBB.ELON >= ELON)     //this BB inside otherBB 
             {
                 WLON = otherBB.WLON;
                 ELON = otherBB.ELON;
             }
-            else if (otherBB.ELON > WLON) WLON = otherBB.WLON;
-            else if (otherBB.WLON < ELON) ELON = otherBB.ELON;
+            else if (otherBB.WLON < WLON && otherBB.ELON > WLON) WLON = otherBB.WLON; //real overlapp
+            else if (otherBB.ELON > ELON && otherBB.WLON < ELON) ELON = otherBB.ELON; //real overlapp
             //** 2nd: boxes distant: calc smaller BBOX **
             else
             {
@@ -162,6 +177,7 @@ void DegBBox::add(const DegBBox & otherBB)
             }
         }
     }
+    assert(SLAT >= -90 && NLAT <= 90 && WLON >= -180 && ELON <= 180 && NLAT >= SLAT);
 }
 
 

@@ -44,6 +44,8 @@ public:
     FieldDSSI & getDssi() {return dssi;}
     FieldDSPM & getDspm() {return dspm;}
 
+    const DegBBox & getBBox() const {return bBox;}
+
     virtual bool isUpdateCell() const {return dsid.getEXPP() == 2;}
 
 protected:
@@ -57,6 +59,8 @@ protected:
     //or if the DDR is non Standard (but that means: not a S-57 cell)
     char * DDR; 
     int DDRlen; //length of DDR
+
+    DegBBox bBox; //Cell Bounding Box, calculated while parsing, only valid vor base-cell, otherwise empty
 };
 
 }

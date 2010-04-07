@@ -87,6 +87,7 @@ void CellS57_Base::parseISO8211(QString fileNamePath)
     CellParser8211Dirty4Base s57parser(this, CellParser8211::ParseAll);
     s57parser.parseS57Cell(fileNamePath);
     processBackwardPointers();
+    calcBoundingBox();
 }
 
 //******************************************************************************
@@ -772,3 +773,57 @@ void CellS57_Base::processBackwardPointer4edge(const EdgeS57 * edge)
     }
 }
 
+//*****************************************************************************
+/// Calculate the Bounding-Box of the Cell 
+/*!
+* Only examin Soundings, Edges(with its Bounding Nodes), 
+* assuming that INodes are within Areas
+* At the same time, every edge/node gets a valid bbox
+****************************************************************************** */    
+void CellS57_Base::calcBoundingBox()
+{
+    std::map< unsigned long, EdgeS57 *>::const_iterator eIt = edges.begin();       
+    for (; eIt != edges.end(); ++eIt)
+    {
+        calcBoundingBox(eIt->second);
+        bBox.add(eIt->second->getBoundingBox());
+    }
+
+    std::map< unsigned long, SoundgS57 *>::const_iterator sIt = soundings.begin();
+    for (; sIt != soundings.end(); ++sIt)
+    {
+        bBox.add(sIt->second->getBoundingBox());
+    }
+}
+
+//*****************************************************************************
+/// Calculate the Bounding-Box of an Edge
+/*!
+* the Bounding box of an edge cannot be calculated while parsing, 
+* because the Boundings Nodes belong to it, too
+****************************************************************************** */    
+void CellS57_Base::calcBoundingBox(EdgeS57 * edge)
+{
+    unsigned long snId = edge->getStartNodeRecId();
+    unsigned long enId = edge->getEndNodeRecId(); 
+
+    DegBBox edgeBBox;
+    if (snId)
+    {
+         const BoundNodeS57 & startNode = getBNode(snId);
+         edgeBBox.add(startNode.getLat(), startNode.getLon());
+    }
+    if ((snId != enId) && enId)
+    {
+         const BoundNodeS57 & endNode = getBNode(enId);
+         edgeBBox.add(endNode.getLat(), endNode.getLon());
+    }
+
+    //std::vector < double >::const_iterator vertIt = edge->getSG2Dvec().begin(); /// Get lat/lon (Y,X) coordiates, but already transformed by to double with  COMF
+    for (int vi =0; vi != edge->getSG2Dvec().size(); vi += 2)
+    {
+        //das fkt nicht: edgeBBox.add(*vertIt, *(++vertIt)); oder edgeBBox.add(*(vertIt++), *(vertIt)); //liefert 2 gleiche werte!
+        edgeBBox.add(edge->getSG2Dvec()[vi], edge->getSG2Dvec()[vi +1]);
+    }
+    edge->setBoundingBox(edgeBBox);
+}

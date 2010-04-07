@@ -5,6 +5,7 @@
 
 namespace Enc
 {
+class Projection;
 
 //******************************************************************************
 /// Iterator for ALL vertices of ALL edges of a Line/Area Feature
@@ -17,10 +18,12 @@ namespace Enc
 class FeatureVertexIterator
 {
 public:
-    const static double EPS; // = 0.0000001; //coordinate-difference less Eps means: equal!
+    const static double EPS_DEG; // = 0.0000001; //for lat/lon(degress) coordinate-difference less Eps means: equal!
+    const static double EPS_PROJ; // = 0.0001; //for north/east(meters)  coordinate-difference less EPS_PROJ means: equal!
+    const double EPS;
 
-    FeatureVertexIterator(const FeatureS57 * feature ,const CellS57_Base * cellS57);
-    FeatureVertexIterator(unsigned long featRcid ,const CellS57_Base * cellS57);
+    FeatureVertexIterator(const FeatureS57 * feature ,const CellS57_Base * cellS57, const Projection * prj =0, bool insertVertices = true);
+    FeatureVertexIterator(unsigned long featRcid ,const CellS57_Base * cellS57, const Projection * prj =0, bool insertVertices = true);
     void operator++()
     {
         finished = !next();
@@ -30,9 +33,13 @@ public:
         return !finished;
         //return currentEdge && (vertexInd <= (int)currentEdge->getSG2Dvec().size()) && (fsptInd < feat->getFsptVec().size());
     }
-    void getValue(double & yOrlat, double & xOrlon) const {yOrlat = y_lat; xOrlon = x_lon;}
-    double getYorLat() const {return y_lat;}
-    double getXorLon() const {return x_lon;}
+    void getValue(double & yOrlat, double & xOrlon) const 
+    {
+        yOrlat = (projection ? y_lat : lat); 
+        xOrlon = (projection ? x_lon : lon);
+    }
+    double getYorLat() const {return (projection ? y_lat : lat);}
+    double getXorLon() const {return (projection ? x_lon : lon);}
     bool nextBoundary();
     void rewind();
 
@@ -40,9 +47,12 @@ private:
 
     void init();
     bool next();
+    bool interpolation(double & newLat, double & newLon);
 
     //**** current position of iterator ****
-    double y_lat, x_lon;
+    double lat, lon; //current pos in degrees
+    bool interpol; //true if current position was interpolated
+    double y_lat, x_lon; //northing/easting: used if projection is applied
 
     //Boundary management: 0 means: outer boundary (always the first), 1 ... n: inner boundaries (if existant)
     int bndryUserId; //The boundary the user wants to iterate, currently
@@ -54,7 +64,8 @@ private:
 
     const FeatureS57 * feat;
     const CellS57_Base * cell;
-
+    const Projection * projection;
+    bool extraVert;
 };
 
 }

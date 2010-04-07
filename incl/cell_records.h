@@ -9,6 +9,7 @@
 #include <map>
 #include <algorithm>
 
+#include "boundingbox_degrees.h"
 #include "cell_record_fields.h"
 
 namespace Enc
@@ -245,8 +246,11 @@ public:
 
     virtual bool isOrphan() const {return features.empty();}
 
+    const DegBBox & getBoundingBox();
+
 protected:
     std::vector < double > SG3Dvec; ///lat/lon/depth (Y,X,Z) coordiates, but already transformed by to double with  COMF and SOMF
+    DegBBox bBox;
 };
 
 //******************************************************************************
@@ -271,6 +275,8 @@ public:
     void setEndNodeRecId(unsigned long val)  { endNodeRecId = val;} 
 
     virtual bool isOrphan() const {return features.empty();}
+    const DegBBox & getBoundingBox() const {return bBox;}
+    void setBoundingBox(const DegBBox & box) {bBox = box;} 
 
 protected:
     //** Instead of using FieldVRPT, just remeber the Start/End Nodes
@@ -278,6 +284,7 @@ protected:
     unsigned long endNodeRecId; 
 
     std::vector < double > SG2Dvec; //lat/lon (Y,X) coordiates, but already transformed by to double with  COMF
+    DegBBox bBox;
 };
 
 //******************************************************************************

@@ -897,6 +897,7 @@ long CellParser8211Dirty::parseSG2DField(const char * fieldPtr, int fieldLen, do
 /// Parse a SG2D Field vector  , containing SEVERAL coordinates (Edges)
 /*!
 * rem: a Edge might have an EMPTY coordinate field
+*      Storage: Y,X,Y,X.....
 ****************************************************************************** */
 void CellParser8211Dirty::parseSG2DFields(const char * fieldPtr, int fieldLen, std::vector< double > & latLonVec)
 {
@@ -906,7 +907,8 @@ void CellParser8211Dirty::parseSG2DFields(const char * fieldPtr, int fieldLen, s
     int count = fieldLen / 4 ;
     if (fieldLen < 8){
         throw QString("ERROR: SG2D field to short, length = %1!").arg(fieldLen);}
-    if (count %2 != 0) throw QString("ERROR: SG2D has %2 values - even number of values expected !").arg(count);
+    if (count %2 != 0){
+        throw QString("ERROR: SG2D has %2 values - even number of values expected !").arg(count);}
 
     latLonVec.reserve(count);  //prevent reallocation - big probem with big vectors!    
     for (int i = 0; i < count; ++i)
@@ -914,6 +916,12 @@ void CellParser8211Dirty::parseSG2DFields(const char * fieldPtr, int fieldLen, s
         double val = ISO8211::bytes2long(fieldPtr) / facXY;
         fieldPtr += 4;
         latLonVec.push_back(val);
+#ifdef _DEBUG
+        if ((i%2 == 0 && (val < -90 || val > 90)) || (val < -180 || val > 180))
+        {
+            qWarning("DEBUG: Invalid Edge Vertex");
+        } 
+#endif
     } 
 }
 

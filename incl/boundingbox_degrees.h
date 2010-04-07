@@ -26,6 +26,8 @@ struct DegBBox
 
     void add(double lat, double lon);
     void add(const DegBBox & otherBB);
+    double centerLat() const{ return (NLAT + SLAT)/2.0;}
+    double centerLon() const;
 
     double SLAT, WLON;  //South-West (LowerLeft) Corner;
     double NLAT, ELON;  //North-East (UpperRight) Corner;

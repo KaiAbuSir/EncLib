@@ -13,3 +13,15 @@ using namespace Enc;
 
 //const int FieldFRID::MemberCnt;   
 
+const DegBBox & SoundgS57::getBoundingBox()
+{
+    if (!bBox.isValid())
+    {
+        for (int i =0; i < SG3Dvec.size(); i += 3)
+        {
+            bBox.add(SG3Dvec[i], SG3Dvec[i+1]);
+        }
+    }
+    return bBox;
+}
+

@@ -97,6 +97,9 @@ protected:
     void processBackwardPointer4edge(const EdgeS57 *);
     void processBackwardPointer4feature(const FeatureS57 *);
 
+    void calcBoundingBox();
+    void calcBoundingBox(EdgeS57 * edge);
+
     unsigned long getMaxRCID4FE() const;
     unsigned long getMaxRCID4VE() const;
     unsigned long getMaxRCID4VI() const;
@@ -123,6 +126,7 @@ protected:
     //**** for updating: remeber new records ****
     std::vector<unsigned long> newFeatures; //newly added or modifyed Feature-Records
     std::vector<unsigned long> newEdges;    //newly added or modifyed Edge-Records
+
 };
 }
 #endif
