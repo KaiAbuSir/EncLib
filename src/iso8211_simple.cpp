@@ -5,7 +5,7 @@
 //** or with a Commercial License granted by Kai R. Neufeldt
 //** contact  Kai R. Neufeldt, Manhagener Allee 65, 22926 Ahrensburg, Germany
 //*****************************************************************************
-#include <QString>
+#include <QtCore/QString>
 
 #include <math.h>
 

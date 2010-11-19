@@ -23,12 +23,12 @@ class S57Updater;
 ***************************************************************************** */
 class CellS57_Base : public CellS57_Header
 {
-friend CellParser8211;
-friend CellParser8211Dirty;
-friend CellWriter;
-friend CellWriter8211Dirty;
-friend CellParser8211Dirty4Base;
-friend S57Updater;
+friend class CellParser8211;
+friend class CellParser8211Dirty;
+friend class CellWriter;
+friend class CellWriter8211Dirty;
+friend class CellParser8211Dirty4Base;
+friend class S57Updater;
 
 public:
 
@@ -130,3 +130,4 @@ protected:
 };
 }
 #endif
+

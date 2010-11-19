@@ -18,9 +18,9 @@ class CellParser8211Dirty4Updt;
 ***************************************************************************** */
 class CellS57_Update : public CellS57_Header
 {
-friend CellParser8211;
-friend CellParser8211Dirty;
-friend CellParser8211Dirty4Updt;
+friend class CellParser8211;
+friend class CellParser8211Dirty;
+friend class CellParser8211Dirty4Updt;
 
 public:
     CellS57_Update(const FieldDSPM & baseDSPM);
