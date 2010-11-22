@@ -54,7 +54,12 @@ SOURCES += src/exsetview.cpp \
     src/cell_check_result.cpp \
     src/catalog031reader.cpp \
     src/boundingbox_edit.cpp \
-    src/boundingbox_degrees.cpp
+    src/boundingbox_degrees.cpp \
+    src/naviView.cpp \
+    src/naviScene.cpp \
+    src/naviWidget.cpp \
+    src/naviSceneItems.cpp \
+    src/dictionaryS52.cpp
 
 HEADERS += incl/exsetview.h \
     incl/boundingbox_degrees.h \
@@ -88,7 +93,12 @@ HEADERS += incl/exsetview.h \
     incl/cell_check_result.h \
     incl/catalog031reader.h \
     incl/boundingbox_edit.h \
-    incl/boundingbox_degrees.h
+    incl/boundingbox_degrees.h \
+    incl/naviView.h \
+    incl/naviScene.h \
+    incl/naviSceneItems.h \
+    incl/dictionaryS52.h \
+    incl/naviWidget.h
 
 OTHER_FILES += \
     incl/GNU_V2.inc \

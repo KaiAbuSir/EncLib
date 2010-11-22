@@ -40,8 +40,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;D:\Projekte\iso8211lib-1_4&quot;;..\incl;C:\Qt\2009.05\qt\include\QtCore;C:\Qt\2009.05\qt\include\;C:\Qt\2009.05\qt\include\QtGui"
-				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS"
+				AdditionalIncludeDirectories="&quot;D:\Projekte\iso8211lib-1_4&quot;;..\incl;&quot;$(QT46)\include\&quot;;&quot;..\..\geographiclib-1.1\include\&quot;"
+				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS _DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -103,7 +103,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;D:\Projekte\iso8211lib-1_4&quot;;..\incl;C:\Qt\2009.05\qt\include\QtCore;C:\Qt\2009.05\qt\include\;C:\Qt\2009.05\qt\include\QtGui"
+				AdditionalIncludeDirectories="&quot;D:\Projekte\iso8211lib-1_4&quot;;..\incl;&quot;$(QT46)\include\&quot;;&quot;..\..\geographiclib-1.1\include\&quot;"
 				PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -194,22 +194,6 @@
 			<File
 				RelativePath="..\src\cell_records.cpp"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\src\cell_records_fields_header.cpp"
@@ -281,6 +265,10 @@
 			</File>
 			<File
 				RelativePath="..\src\exsetview.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\geo_projections.cpp"
 				>
 			</File>
 			<File
@@ -502,6 +490,14 @@
 						Outputs=" ..\moc_release\moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\incl\geo_projections.h"
+				>
+			</File>
+			<File
+				RelativePath="..\incl\geo_spheroids.h"
+				>
 			</File>
 			<File
 				RelativePath="..\incl\helper.h"

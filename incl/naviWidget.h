@@ -5,14 +5,30 @@
 
 namespace Enc
 {
+    class NaviScene;
+    class NaviView;
 
-class naviWidget : public QWidget
+//*****************************************************************************
+/// High Level, Easy2Use Widget to display a Chart and appropriate Navi-Buttons
+/*!
+  *
+  *************************************************************************** */
+class NaviWidget : public QWidget
 {
+    Q_OBJECT
+
 public:
-    naviWidget();
+    NaviWidget(QWidget * parent = 0);
 
+public slots:
 
+    void loadCharts(QStringList filenames);
+    void projectionChange(int);
 
+protected:
+
+    NaviScene * naviScene;
+    NaviView * naviView;
 };
 
 
