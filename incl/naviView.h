@@ -22,10 +22,15 @@ class NaviView : public QGraphicsView
 {
     Q_OBJECT
 
+signals:
+    void projectionChanged(int);
+
 public:
 
     NaviView(QWidget * parent = 0);
     NaviView(QGraphicsScene * scene, QWidget * parent = 0);
+
+    void initProjections();
 
 public slots:
 
@@ -121,7 +126,7 @@ class ChartProjectionComboBox : public QComboBox
 
 signals:
 
-    void projectionChange(int); //user changed projection, see Enc::Projections in geo_projections.h
+    void projectionChanged(int); //user changed projection, see Enc::Projections in geo_projections.h
 
 public:
     ChartProjectionComboBox(QWidget * parent =0);

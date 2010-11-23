@@ -3,10 +3,11 @@
 
 #include <QWidget>
 
+#include "naviScene.h"
+#include "naviView.h"
+
 namespace Enc
 {
-    class NaviScene;
-    class NaviView;
 
 //*****************************************************************************
 /// High Level, Easy2Use Widget to display a Chart and appropriate Navi-Buttons
@@ -17,13 +18,18 @@ class NaviWidget : public QWidget
 {
     Q_OBJECT
 
+signals:
+    void progressMessage(const QString &);
+
 public:
     NaviWidget(QWidget * parent = 0);
 
 public slots:
 
     void loadCharts(QStringList filenames);
-    void projectionChange(int);
+    void projectionChanged(int);
+    void zoomIn() {naviView->zoomIn();}
+    void zoomOut() {naviView->zoomOut();}
 
 protected:
 

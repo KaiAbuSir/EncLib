@@ -1,5 +1,7 @@
 #include "naviView.h"
 
+#include "geo_projections.h"
+
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QLabel>
@@ -8,7 +10,7 @@ using namespace Enc;
 
 NaviView::NaviView(QWidget * parent) : QGraphicsView(parent)
 {
-    addNaviWidgets();
+    //addNaviWidgets();
 }
 
 void NaviView::addNaviWidgets()
@@ -33,6 +35,10 @@ void NaviView::addNaviWidgets()
 
     rigthLyt->addStretch(1000);
 
+    //**** inits ****
+    initProjections();
+
+    connect(projectWgt, SIGNAL(currentIndexChanged(int)), this, SIGNAL(projectionChanged(int)));
     connect(scaleWgt,  SIGNAL(zoonIn()), this, SLOT(zoomIn()));
     connect(scaleWgt, SIGNAL(zoomOut()), this, SLOT(zoomOut()));
 }
@@ -40,6 +46,11 @@ void NaviView::addNaviWidgets()
 NaviView::NaviView(QGraphicsScene * scene, QWidget * parent): QGraphicsView(scene, parent)
 {
 
+}
+
+void NaviView::initProjections()
+{
+   for (int prI=0; prI < ProjectionCount; ++prI) projectWgt->addItem(Projections[prI]);
 }
 
 void NaviView::zoomIn()
@@ -140,9 +151,6 @@ ChartProjectionComboBox::ChartProjectionComboBox(QWidget * parent): QComboBox(pa
 /*
 //**** Projection ****
 projectionCBx = new QComboBox(this);
-for (int prI=0; prI < ProjectionCount; ++prI) projectionCBx->addItem(Projections[prI]);
-lyt->addWidget(projectionCBx);
 
-//**** connections ****
-connect(projectionCBx, SIGNAL(currentIndexChanged(int)), this, SIGNAL(projectionChange(int)));
+
 */

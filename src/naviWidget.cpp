@@ -15,8 +15,9 @@ NaviWidget::NaviWidget(QWidget * parent) : QWidget(parent)
     QHBoxLayout * lyt = new QHBoxLayout(this);
     lyt->addWidget(naviView);
 
-    connect(naviView, SIGNAL(projectionChange(int)), this, SLOT(projectionChange(int)));
+    connect(naviView, SIGNAL(projectionChanged(int)), this, SLOT(projectionChanged(int)));
     connect(naviScene, SIGNAL(contentChanged()), naviView, SLOT(update()));
+    connect(naviScene, SIGNAL(progressMessage(const QString &)), this, SIGNAL(progressMessage(const QString &)));
 }
 
 void NaviWidget::loadCharts(QStringList filenames)
@@ -24,7 +25,7 @@ void NaviWidget::loadCharts(QStringList filenames)
     naviScene->loadCharts(filenames);
 }
 
-void NaviWidget::projectionChange(int prjktIt)
+void NaviWidget::projectionChanged(int prjktIt)
 {
     naviScene->setProjection(prjktIt);
     naviScene->onDrawCells();    //kai - mal gucken , ob man view noch benachrichtigen muss

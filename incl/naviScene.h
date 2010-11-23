@@ -26,6 +26,8 @@ class NaviScene : public QGraphicsScene
 Q_OBJECT
 
 signals:
+
+    void progressMessage(const QString &);
     void contentChanged();
 
 public:
@@ -47,7 +49,7 @@ protected:
 
     std::vector<Enc::CellS57_Base *> cells;
 
-    DictionaryS52 dict;
+    PresentationS52 * presenterS57;
 };
 
 

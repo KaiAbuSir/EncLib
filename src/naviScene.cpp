@@ -8,18 +8,19 @@
 #include<QPen>
 #include<QBrush>
 #include<QPolygonF>
-#include<QAbstractGraphicsShapeItem >
+#include<QAbstractGraphicsShapeItem>
 #include<QMessageBox>
 
 using namespace Enc;
 
-NaviScene::NaviScene(QObject * parent) : QGraphicsScene(parent), projectionId(0), projection(0)
+NaviScene::NaviScene(QObject * parent) : QGraphicsScene(parent), projectionId(0), projection(0), presenterS57(0)
 {
-
+    presenterS57 = new PresentationS52();
 }
 NaviScene::~NaviScene()
 {
     clearAll();
+    delete presenterS57;
 
 }
  void NaviScene::setProjection(int prjctnId)
@@ -41,7 +42,7 @@ void NaviScene::onDrawCells()
 
     //**** get the position of the cells to initalize the projection ****
     DegBBox viewBBox;
-    for (int cI = 0; cI < cells.size(); ++cI)
+    for (uint cI = 0; cI < cells.size(); ++cI)
     {
         viewBBox.add(cells[cI]->getBBox());
     }
@@ -57,12 +58,14 @@ void NaviScene::onDrawCells()
     bool red = true;
     const QAbstractGraphicsShapeItem  * currItem = 0;
 
-    for (int cI = 0; cI < cells.size(); ++cI, red = !red)
+    for (uint cI = 0; cI < cells.size(); ++cI, red = !red)
     {
+        CellS57_Base * newCell =cells[cI];
+        if (!newCell) continue;
+        emit progressMessage("Drawing cell: " + newCell->getDsid().getDSNM());
+
         try
         {
-            CellS57_Base * newCell =cells[cI];
-
             int cnt = 0;
             const std::map< unsigned long, FeatureS57 *> & cellFeats = newCell->getFeatures();
             std::map< unsigned long, FeatureS57 *>::const_iterator fIt = cellFeats.begin();
@@ -96,7 +99,8 @@ const QAbstractGraphicsShapeItem * NaviScene::convertFeature(unsigned long, cons
 {
     const QAbstractGraphicsShapeItem  * currItem;
 
-    QPen myPen = dict.getPen(); //colorfull debugging
+    QPen myPen = presenterS57->getPen(feat);  //colorfull debugging
+    QBrush myBrush = presenterS57->getBrush(feat);
 
     QPolygonF edgeQP;
     FeatureVertexIterator vertexIt(feat , newCell, projection);
@@ -127,7 +131,7 @@ myPen.setStyle(Qt::PenStyle(innerCnt %4 +2));
 ****************************************************************************** */
 void NaviScene::clearAll()
 {
-    for (int cI = 0; cI < cells.size(); ++cI) delete cells[cI];
+    for (uint cI = 0; cI < cells.size(); ++cI) delete cells[cI];
     cells.clear();
     clear();
 }
@@ -143,6 +147,7 @@ void NaviScene::loadCharts(QStringList cellList)
     {
         try
         {
+            emit progressMessage("Paring cell: " +*cIt);
             CellS57_Base * newCell = new CellS57_Base();
             newCell->parseISO8211(*cIt);
             cells.push_back(newCell);

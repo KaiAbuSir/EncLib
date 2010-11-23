@@ -103,3 +103,6 @@ HEADERS += incl/exsetview.h \
 OTHER_FILES += \
     incl/GNU_V2.inc \
     incl/cell_writer_iso8211dirtyDDR.incl
+
+RESOURCES += \
+    EncLibQt.qrc
