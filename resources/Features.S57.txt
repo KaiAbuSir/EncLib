@@ -1,0 +1,4 @@
+#S-57 Featurs Classes, comma-seperated: Feature-Id, Token, Explanation
+1, ADMARE, Administration Area
+3, ACHBRT, Anchor berth
+4, ACHARE, Anchorage area

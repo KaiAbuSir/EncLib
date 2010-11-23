@@ -1,0 +1,11 @@
+#S-57 Attributes, comma separated: Attribute-Id, Token, description
+1, AGENCY, Agency responsible for production
+2, BCNSHP, Beacon shape
+3, BUISHP, Building shape
+4, BOYSHP, Buoy shape
+5, BURDEP, Buried depth
+6, CALSGN, Call sign
+7, CATAIR, Category of airport/airfield
+
+
+188, CAT_TS, Category of Tidal stream
