@@ -85,7 +85,7 @@ void NaviScene::onDrawCells()
             QMessageBox::warning(NULL, "Cell Load Error", msg);
         }
     }
-
+    invalidate();  //kai : braucht die Scene das????????????
     emit contentChanged();
 }
 

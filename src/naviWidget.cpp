@@ -22,7 +22,7 @@ NaviWidget::NaviWidget(QWidget * parent) : QWidget(parent)
 
 void NaviWidget::loadCharts(QStringList filenames)
 {
-    naviScene->loadCharts(filenames);
+    naviScene->loadCharts(filenames); //will redraw cells, too
 }
 
 void NaviWidget::projectionChanged(int prjktIt)
