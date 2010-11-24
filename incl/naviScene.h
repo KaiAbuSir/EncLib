@@ -8,6 +8,7 @@
 #include <QGraphicsScene>
 #include <QAbstractGraphicsShapeItem>
 #include <QPen>
+#include <QRectF>
 
 namespace Enc
 {
@@ -28,7 +29,7 @@ Q_OBJECT
 signals:
 
     void progressMessage(const QString &);
-    void contentChanged();
+    void contentChanged(QRectF);
 
 public:
     NaviScene(QObject * parent = 0 );

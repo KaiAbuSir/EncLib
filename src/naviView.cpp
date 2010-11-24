@@ -13,6 +13,17 @@ NaviView::NaviView(QWidget * parent) : QGraphicsView(parent)
     //addNaviWidgets();
 }
 
+NaviView::NaviView(QGraphicsScene * scene, QWidget * parent): QGraphicsView(scene, parent)
+{
+
+}
+
+void NaviView::showContent(QRectF contentRect)
+{
+    setSceneRect(contentRect);
+    update();
+}
+
 void NaviView::addNaviWidgets()
 {
     QHBoxLayout * mainLyt = new QHBoxLayout(viewport());
@@ -41,11 +52,6 @@ void NaviView::addNaviWidgets()
     connect(projectWgt, SIGNAL(currentIndexChanged(int)), this, SIGNAL(projectionChanged(int)));
     connect(scaleWgt,  SIGNAL(zoonIn()), this, SLOT(zoomIn()));
     connect(scaleWgt, SIGNAL(zoomOut()), this, SLOT(zoomOut()));
-}
-
-NaviView::NaviView(QGraphicsScene * scene, QWidget * parent): QGraphicsView(scene, parent)
-{
-
 }
 
 void NaviView::initProjections()

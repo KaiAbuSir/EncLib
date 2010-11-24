@@ -16,7 +16,7 @@ NaviWidget::NaviWidget(QWidget * parent) : QWidget(parent)
     lyt->addWidget(naviView);
 
     connect(naviView, SIGNAL(projectionChanged(int)), this, SLOT(projectionChanged(int)));
-    connect(naviScene, SIGNAL(contentChanged()), naviView, SLOT(update()));
+    connect(naviScene, SIGNAL(contentChanged(QRectF)), naviView, SLOT(showContent(QRectF)));
     connect(naviScene, SIGNAL(progressMessage(const QString &)), this, SIGNAL(progressMessage(const QString &)));
 }
 

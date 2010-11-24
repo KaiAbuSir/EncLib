@@ -2,6 +2,7 @@
 #define NAVIVIEW_H
 
 #include <QGraphicsView>
+#include <QRectF>
 #include <QPushButton>
 #include <QLineEdit>
 #include <QFrame>
@@ -36,6 +37,7 @@ public slots:
 
     void zoomIn();
     void zoomOut();
+    void showContent(QRectF);
 
 protected:
 
@@ -47,6 +49,8 @@ protected:
     ChartEastNorthWidget * xyWgt;
 
 };
+
+
 
 //*****************************************************************************
 /// Widget to display and change the Scale

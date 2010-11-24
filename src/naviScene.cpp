@@ -58,6 +58,7 @@ void NaviScene::onDrawCells()
     bool red = true;
     const QAbstractGraphicsShapeItem  * currItem = 0;
 
+    QRectF viewBoundingRect;
     for (uint cI = 0; cI < cells.size(); ++cI, red = !red)
     {
         CellS57_Base * newCell =cells[cI];
@@ -75,6 +76,7 @@ void NaviScene::onDrawCells()
                 {
                     //if (cnt != CURRFEAT) {++cnt; continue;}  //debug only
                     currItem = convertFeature(fIt->first, fIt->second, newCell);
+                    viewBoundingRect = viewBoundingRect.unite(currItem->boundingRect());
                     //if (cnt == CURRFEAT) break;  //debug only
                     ++cnt;
                 }
@@ -85,8 +87,11 @@ void NaviScene::onDrawCells()
             QMessageBox::warning(NULL, "Cell Load Error", msg);
         }
     }
+
     invalidate();  //kai : braucht die Scene das????????????
-    emit contentChanged();
+
+
+    emit contentChanged(viewBoundingRect);
 }
 
 //*****************************************************************************
@@ -158,4 +163,5 @@ void NaviScene::loadCharts(QStringList cellList)
         }
     }
     onDrawCells();
+    emit  progressMessage(QString("%1 cells loaded").arg(cellList.count()));
 }
