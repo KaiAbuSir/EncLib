@@ -37,6 +37,8 @@ public slots:
 
     void zoomIn();
     void zoomOut();
+    void rotateRight(double);
+
     void showContent(QRectF);
 
 protected:

@@ -81,6 +81,60 @@ void ChartEastNorthWidget::setEastNorth(double x, double y)
     yEdt->setText(QString::number(y));
 }
 
+//*****************************************************************************
+/// Simple Widget to display a the current Easting / Northing   (X,Y)position
+/*!
+  *
+  *************************************************************************** */
+ChartRotationWidget::ChartRotationWidget(QWidget * parent) : QFrame(parent)
+{
+
+    negBtn = new QPushButton("Left", this);
+    posBtn = new QPushButton("Right", this);;
+    rotEdt = new QLineEdit(" 180 ° ", this);
+    QHBoxLayout * lyt = new QHBoxLayout(this);
+    lyt->addWidget(negBtn);
+    lyt->addWidget(rotEdt);
+    lyt->addWidget(posBtn);
+
+    setFixedSize(sizeHint());
+
+    connect(negBtn, SIGNAL(clicked()), this, SLOT(onLeft()));
+    connect(posBtn, SIGNAL(clicked()), this, SLOT(onRight()));
+}
+
+//*****************************************************************************
+/// Set rotation angle - Caller must take care that angle is [-180,180] deg.
+/*! decimals are not displayed!
+  *************************************************************************** */
+void ChartRotationWidget::setRotation(double rot)
+{
+    rotEdt->setText(QString("%1 °").arg((int)rot));
+}
+
+//*****************************************************************************
+/// Request a left-rotation of the chart
+/*!
+  * The new rotation angle is not set yet, but must be set by caller after rotation finished
+  *************************************************************************** */
+void ChartRotationWidget::onLeft() //const
+{
+    double newRotation = rotEdt->text().toDouble();
+    newRotation -= 10.0;
+    emit chartRotation(newRotation);
+}
+
+//*****************************************************************************
+///  Request a right-rotation of the chart
+/*!
+  * The new rotation angle is not set yet, but must be set by caller after rotation finished
+  *************************************************************************** */
+void ChartRotationWidget::onRight() //const
+{
+    double newRotation = rotEdt->text().toDouble();
+    newRotation += 10.0;
+    emit chartRotation(newRotation);
+}
 
 //*****************************************************************************
 /// Select form a List of Projections
@@ -91,10 +145,3 @@ ChartProjectionComboBox::ChartProjectionComboBox(QWidget * parent): QComboBox(pa
 {
 
 }
-
-/*
-//**** Projection ****
-projectionCBx = new QComboBox(this);
-
-
-*/

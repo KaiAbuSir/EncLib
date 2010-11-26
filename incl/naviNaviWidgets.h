@@ -78,6 +78,36 @@ protected:
 };
 
 //*****************************************************************************
+/// Simple Widget to display a the current Easting / Northing   (X,Y)position
+/*!
+  *
+  *************************************************************************** */
+class ChartRotationWidget : public QFrame
+{
+    Q_OBJECT
+
+signals:
+    void chartRotation(double);
+
+public:
+    ChartRotationWidget(QWidget * parent =0);
+
+public slots:
+
+    void setRotation(double rotation);
+
+private slots:
+    void onLeft() ; //const;
+    void onRight() ; // const;
+
+protected:
+
+    QPushButton * negBtn, * posBtn;
+    QLineEdit * rotEdt;
+};
+
+
+//*****************************************************************************
 /// Select form a List of Projections
 /*!
   *

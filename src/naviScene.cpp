@@ -4,16 +4,19 @@
 #include "cell_s57_iterators.h"
 #include "boundingbox_degrees.h"
 #include "geo_projections.h"
+#include "naviNaviWidgets.h"
 
 #include<QPen>
 #include<QBrush>
 #include<QPolygonF>
 #include<QAbstractGraphicsShapeItem>
+#include<QGraphicsLinearLayout>
 #include<QMessageBox>
 
 using namespace Enc;
 
-NaviScene::NaviScene(QObject * parent) : QGraphicsScene(parent), projectionId(0), projection(0), presenterS57(0)
+NaviScene::NaviScene(QObject * parent) : QGraphicsScene(parent), projectWgt(0), scaleWgt(0), posWgt(0), xyWgt(0),
+                                         projectionId(0), projection(0), presenterS57(0)
 {
     presenterS57 = new PresentationS52();
 }
@@ -26,6 +29,42 @@ NaviScene::~NaviScene()
  void NaviScene::setProjection(int prjctnId)
  {
      projectionId = prjctnId;  //waere besser, hier die projection zu erzeugen, oder?
+ }
+
+ //*****************************************************************************
+ /// Add Navigation Widgets (if needed)
+ /*!
+  * Kai- not yet finished !!
+  ****************************************************************************** */
+ void NaviScene::addNaviWidgets()
+ {
+     QGraphicsLinearLayout * mainLyt = new QGraphicsLinearLayout();
+     QGraphicsLinearLayout * leftLyt = new QGraphicsLinearLayout(Qt::Vertical, mainLyt);
+     mainLyt->addStretch(1);
+
+     projectWgt = new ChartProjectionComboBox();
+     scaleWgt = new ChartScaleWidget();
+     posWgt = new ChartPositionWidget();
+     xyWgt = new ChartEastNorthWidget();
+
+     proxyMap[projectWgt] = addWidget(projectWgt);
+     proxyMap[scaleWgt] = addWidget(scaleWgt);
+     proxyMap[posWgt] = addWidget(posWgt);
+     proxyMap[xyWgt] = addWidget(xyWgt);
+
+     leftLyt->addItem(proxyMap[projectWgt]);
+     leftLyt->addItem(proxyMap[scaleWgt]);
+     leftLyt->addItem(proxyMap[posWgt]);
+     leftLyt->addItem(proxyMap[xyWgt]);
+     leftLyt->addStretch(1000);
+
+     //**** inits ****
+     for (int prI=0; prI < ProjectionCount; ++prI) projectWgt->addItem(Projections[prI]); // initProjections
+
+     //**** Widget Signals are just forwarded with same-name Scene Signals ****
+     connect(projectWgt, SIGNAL(currentIndexChanged(int)), this, SIGNAL(projectionChanged(int)));
+     connect(scaleWgt,  SIGNAL(zoonIn()), this, SIGNAL(zoomIn()));
+     connect(scaleWgt, SIGNAL(zoomOut()), this, SIGNAL(zoomOut()));
  }
 
 //*****************************************************************************
