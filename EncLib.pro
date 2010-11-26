@@ -59,7 +59,8 @@ SOURCES += src/exsetview.cpp \
     src/naviScene.cpp \
     src/naviWidget.cpp \
     src/naviSceneItems.cpp \
-    src/dictionaryS52.cpp
+    src/dictionaryS52.cpp \
+    src/naviNaviWidgets.cpp
 
 HEADERS += incl/exsetview.h \
     incl/boundingbox_degrees.h \
@@ -98,7 +99,8 @@ HEADERS += incl/exsetview.h \
     incl/naviScene.h \
     incl/naviSceneItems.h \
     incl/dictionaryS52.h \
-    incl/naviWidget.h
+    incl/naviWidget.h \
+    incl/naviNaviWidgets.h
 
 OTHER_FILES += \
     incl/GNU_V2.inc \
