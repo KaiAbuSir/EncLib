@@ -15,7 +15,7 @@
 
 using namespace Enc;
 
-NaviScene::NaviScene(QObject * parent) : QGraphicsScene(parent), projectWgt(0), scaleWgt(0), posWgt(0), xyWgt(0),
+NaviScene::NaviScene(QObject * parent) : QGraphicsScene(parent), projectWgt(0), scaleWgt(0), posWgt(0), xyWgt(0), naviWgt(0),
                                          projectionId(0), projection(0), presenterS57(0)
 {
     presenterS57 = new PresentationS52();
@@ -34,19 +34,34 @@ NaviScene::~NaviScene()
  //*****************************************************************************
  /// Add Navigation Widgets (if needed)
  /*!
-  * Kai- not yet finished !!
+  * Only used if Navi Widgets should be a part of the view, means: drawn on top to the chart
   ****************************************************************************** */
  void NaviScene::addNaviWidgets()
  {
-     QGraphicsLinearLayout * mainLyt = new QGraphicsLinearLayout();
-     QGraphicsLinearLayout * leftLyt = new QGraphicsLinearLayout(Qt::Vertical, mainLyt);
-     mainLyt->addStretch(1);
+     if (naviWgt) return; //dont add twice
 
+     //**** create the widgets and connect them ****
      projectWgt = new ChartProjectionComboBox();
      scaleWgt = new ChartScaleWidget();
      posWgt = new ChartPositionWidget();
      xyWgt = new ChartEastNorthWidget();
+     rotWgt = new ChartRotationWidget();
 
+     //** Widget Signals are just forwarded with same-name Scene Signals **
+     connect(projectWgt, SIGNAL(currentIndexChanged(int)), this, SIGNAL(projectionChanged(int)));
+     connect(scaleWgt,  SIGNAL(zoonIn()), this, SIGNAL(zoomIn()));
+     connect(scaleWgt, SIGNAL(zoomOut()), this, SIGNAL(zoomOut()));
+
+     //** inits **
+     for (int prI=0; prI < ProjectionCount; ++prI) projectWgt->addItem(Projections[prI]); // initProjections
+
+
+     //**** create the Layout ****
+     QGraphicsLinearLayout * mainLyt = new QGraphicsLinearLayout();
+     QGraphicsLinearLayout * leftLyt = new QGraphicsLinearLayout(Qt::Vertical, mainLyt);
+     mainLyt->addStretch();
+
+     //** of course widgets need proxys **
      proxyMap[projectWgt] = addWidget(projectWgt);
      proxyMap[scaleWgt] = addWidget(scaleWgt);
      proxyMap[posWgt] = addWidget(posWgt);
@@ -56,15 +71,13 @@ NaviScene::~NaviScene()
      leftLyt->addItem(proxyMap[scaleWgt]);
      leftLyt->addItem(proxyMap[posWgt]);
      leftLyt->addItem(proxyMap[xyWgt]);
-     leftLyt->addStretch(1000);
+     //unnötig: leftLyt->addStretch(1000);
 
-     //**** inits ****
-     for (int prI=0; prI < ProjectionCount; ++prI) projectWgt->addItem(Projections[prI]); // initProjections
-
-     //**** Widget Signals are just forwarded with same-name Scene Signals ****
-     connect(projectWgt, SIGNAL(currentIndexChanged(int)), this, SIGNAL(projectionChanged(int)));
-     connect(scaleWgt,  SIGNAL(zoonIn()), this, SIGNAL(zoomIn()));
-     connect(scaleWgt, SIGNAL(zoomOut()), this, SIGNAL(zoomOut()));
+     //**** finally, add all to the scene ****
+     naviWgt = new QGraphicsWidget();
+     naviWgt->setLayout(mainLyt);
+     addItem(naviWgt);
+     //kai: missing: diese widgets sollten von allen transformationen/scrolling ausgenommen werden
  }
 
 //*****************************************************************************

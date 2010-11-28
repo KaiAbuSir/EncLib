@@ -87,7 +87,7 @@ class ChartRotationWidget : public QFrame
     Q_OBJECT
 
 signals:
-    void chartRotation(double);
+    void chartHeading(double);
 
 public:
     ChartRotationWidget(QWidget * parent =0);
@@ -124,6 +124,24 @@ public:
     ChartProjectionComboBox(QWidget * parent =0);
 
     int currentProjection() const {return currentIndex();}
+};
+
+
+//*****************************************************************************
+/// Struct holding all Navigation-Widgets - just 4 convenience
+/*!
+  *
+  *************************************************************************** */
+struct AllNaviWidgets
+{
+public:
+    AllNaviWidgets(QWidget * parent);
+
+    ChartProjectionComboBox * projectWgt;
+    ChartScaleWidget * scaleWgt;
+    ChartPositionWidget * posWgt;
+    ChartEastNorthWidget * xyWgt;
+    ChartRotationWidget * rotWgt;
 };
 
 }

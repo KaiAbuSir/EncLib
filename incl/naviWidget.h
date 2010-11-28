@@ -30,6 +30,8 @@ public slots:
     void projectionChanged(int);
     void zoomIn() {naviView->zoomIn();}
     void zoomOut() {naviView->zoomOut();}
+    void setScale(double newScale) {naviView->setScale(newScale);}
+    void setChartHeading(double heading) {naviView->setChartHeading(heading);}
 
 protected:
 

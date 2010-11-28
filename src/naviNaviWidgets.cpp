@@ -7,6 +7,15 @@
 
 using namespace Enc;
 
+AllNaviWidgets::AllNaviWidgets(QWidget * wgtParent)
+{
+    projectWgt = new ChartProjectionComboBox(wgtParent);
+    scaleWgt = new ChartScaleWidget(wgtParent);
+    posWgt = new ChartPositionWidget(wgtParent);
+    xyWgt = new ChartEastNorthWidget(wgtParent);
+    rotWgt = new ChartRotationWidget(wgtParent);
+}
+
 //*****************************************************************************
 /// Widget to display and change the Scale
 /*!
@@ -18,12 +27,14 @@ ChartScaleWidget::ChartScaleWidget(QWidget * parent) :  QFrame(parent)
 
     //**** scale ****
     lyt->addWidget(new QLabel(tr(" Scale: "),this), 0);
-    scaleEdt = new QLineEdit(this);
+    scaleEdt = new QLineEdit(" -------- ", this);
     zoonInBtn = new QPushButton("+", this);
     zoomOutBtn = new QPushButton("-", this);
     lyt->addWidget(zoomOutBtn , 0);
     lyt->addWidget(scaleEdt , 1);
     lyt->addWidget(zoonInBtn , 0);
+
+    setFixedHeight(sizeHint().height());
 
     connect(zoonInBtn, SIGNAL(clicked()), this, SIGNAL(zoomIn()));
     connect(zoomOutBtn, SIGNAL(clicked()), this, SIGNAL(zoomOut()));
@@ -49,6 +60,8 @@ ChartPositionWidget::ChartPositionWidget(QWidget * parent) :  QFrame(parent)
     lonEdt = new QLineEdit(this);
     lyt->addWidget(latEdt, 1);
     lyt->addWidget(lonEdt, 1);
+
+    setFixedHeight(sizeHint().height());
 }
 
 void ChartPositionWidget::setPosition(double lat, double lon)
@@ -67,12 +80,14 @@ ChartEastNorthWidget::ChartEastNorthWidget(QWidget * parent ): QFrame(parent)
     QHBoxLayout * lyt = new QHBoxLayout(this);
 
     //**** northing/easting (x,y) ****
-    xEdt = new QLineEdit(this);
-    yEdt = new QLineEdit(this);
+    xEdt = new QLineEdit(" ------- ", this);
+    yEdt = new QLineEdit(" ------- ", this);
     lyt->addWidget(new QLabel(tr(" Easting="),this), 0);
     lyt->addWidget(xEdt, 1);
     lyt->addWidget(new QLabel(tr(" Northing="),this), 0);
     lyt->addWidget(yEdt , 1);
+
+    setFixedHeight(sizeHint().height());
 }
 
 void ChartEastNorthWidget::setEastNorth(double x, double y)
@@ -91,13 +106,13 @@ ChartRotationWidget::ChartRotationWidget(QWidget * parent) : QFrame(parent)
 
     negBtn = new QPushButton("Left", this);
     posBtn = new QPushButton("Right", this);;
-    rotEdt = new QLineEdit(" 180 ° ", this);
+    rotEdt = new QLineEdit("  180 ° ", this);
     QHBoxLayout * lyt = new QHBoxLayout(this);
     lyt->addWidget(negBtn);
     lyt->addWidget(rotEdt);
     lyt->addWidget(posBtn);
 
-    setFixedSize(sizeHint());
+    setFixedHeight(sizeHint().height());
 
     connect(negBtn, SIGNAL(clicked()), this, SLOT(onLeft()));
     connect(posBtn, SIGNAL(clicked()), this, SLOT(onRight()));
@@ -121,7 +136,7 @@ void ChartRotationWidget::onLeft() //const
 {
     double newRotation = rotEdt->text().toDouble();
     newRotation -= 10.0;
-    emit chartRotation(newRotation);
+    emit chartHeading(newRotation);
 }
 
 //*****************************************************************************
@@ -133,7 +148,7 @@ void ChartRotationWidget::onRight() //const
 {
     double newRotation = rotEdt->text().toDouble();
     newRotation += 10.0;
-    emit chartRotation(newRotation);
+    emit chartHeading(newRotation);
 }
 
 //*****************************************************************************

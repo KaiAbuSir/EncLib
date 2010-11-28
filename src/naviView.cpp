@@ -6,6 +6,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QLabel>
+#include <QTransform>
 
 using namespace Enc;
 
@@ -63,14 +64,33 @@ void NaviView::initProjections()
 void NaviView::zoomIn()
 {
     scale(2.0, 2.0);
+    //kai: missing: memeber new scale
 }
 
 void NaviView::zoomOut()
 {
     scale(0.5, 0.5);
+    //kai: missing: memeber new scale
 }
 
-void NaviView::rotateRight(double rotation)
+void NaviView::setScale(double newScale)
 {
+    //Kai: missing: check if real change
+    myAngle = newScale;
+    updateTransform();
+}
 
+void NaviView::setChartHeading(double newHeading)
+{
+    //kai: missing: check if real change
+    myAngle = newHeading;
+    updateTransform();
+}
+
+void NaviView::updateTransform()
+{
+    QTransform trans;
+    trans.rotate(myAngle ,Qt::ZAxis);
+    trans.scale(myAngle, myScale);
+    //kai: missing: emit new scale/heading
 }

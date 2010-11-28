@@ -22,6 +22,7 @@ class ChartProjectionComboBox;
 class ChartScaleWidget;
 class ChartPositionWidget;
 class ChartEastNorthWidget;
+class ChartRotationWidget;
 
 //*****************************************************************************
 /// Scene holding the projected items of a number of ENCs
@@ -40,12 +41,13 @@ signals:
     //** forwarding signals of navi-widgets **
     void zoomIn();
     void zoomOut();
-    void rotateRight(double);
+    void chartHeading(double);
     void projectionChanged(int);
 
 public:
     NaviScene(QObject * parent = 0 );
     virtual ~NaviScene();
+    void addNaviWidgets();
 
 public slots:
     void loadCharts(QStringList filenames);
@@ -56,7 +58,7 @@ public slots:
 protected:
 
     //**** GUI methods ****
-    void addNaviWidgets();
+
 
     //**** Cell-drawing methods ****
     const QAbstractGraphicsShapeItem * convertFeature(unsigned long, const FeatureS57 * feat, CellS57_Base *);
@@ -66,6 +68,8 @@ protected:
     ChartScaleWidget * scaleWgt;
     ChartPositionWidget * posWgt;
     ChartEastNorthWidget * xyWgt;
+    ChartRotationWidget * rotWgt;
+    QGraphicsWidget * naviWgt;  //holds ALL navi, widgets, but may be NULL
 
     QMap <QWidget*, QGraphicsProxyWidget*> proxyMap;
 

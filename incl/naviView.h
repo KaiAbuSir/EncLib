@@ -37,12 +37,14 @@ public slots:
 
     void zoomIn();
     void zoomOut();
-    void rotateRight(double);
+    void setScale(double);
+    void setChartHeading(double heading);
 
     void showContent(QRectF);
 
 protected:
 
+    void updateTransform();
     void addNaviWidgets();
 
     ChartProjectionComboBox * projectWgt;
@@ -50,6 +52,9 @@ protected:
     ChartPositionWidget * posWgt;
     ChartEastNorthWidget * xyWgt;
 
+    //** current Transformation **
+    double myAngle;
+    double myScale;
 };
 
 
