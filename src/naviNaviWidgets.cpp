@@ -1,9 +1,9 @@
 #include "naviNaviWidgets.h"
 
-
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QLabel>
+#include <QtCore/QRegExp>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QLabel>
 
 using namespace Enc;
 
@@ -43,6 +43,12 @@ ChartScaleWidget::ChartScaleWidget(QWidget * parent) :  QFrame(parent)
 void ChartScaleWidget::setScale(int scl)
 {
     scaleEdt->setText(QString::number(scl));
+}
+
+void ChartScaleWidget::setScale(double scl)
+{
+    if (scl < 0) scaleEdt->setText(QString::number(scl));
+    scaleEdt->setText(QString::number((int)scl));
 }
 
 //*****************************************************************************
@@ -106,8 +112,9 @@ ChartRotationWidget::ChartRotationWidget(QWidget * parent) : QFrame(parent)
 
     negBtn = new QPushButton("Left", this);
     posBtn = new QPushButton("Right", this);;
-    rotEdt = new QLineEdit("  180 ° ", this);
+    rotEdt = new QLineEdit("    0 ° ", this);
     QHBoxLayout * lyt = new QHBoxLayout(this);
+    lyt->addWidget(new QLabel("Heading: ", this));
     lyt->addWidget(negBtn);
     lyt->addWidget(rotEdt);
     lyt->addWidget(posBtn);
@@ -119,12 +126,12 @@ ChartRotationWidget::ChartRotationWidget(QWidget * parent) : QFrame(parent)
 }
 
 //*****************************************************************************
-/// Set rotation angle - Caller must take care that angle is [-180,180] deg.
+/// Set heading angle - Caller must take care that 0-angle is north.
 /*! decimals are not displayed!
   *************************************************************************** */
-void ChartRotationWidget::setRotation(double rot)
+void ChartRotationWidget::setHeading(double heading)
 {
-    rotEdt->setText(QString("%1 °").arg((int)rot));
+    rotEdt->setText(QString(" %1 °").arg((int)heading));
 }
 
 //*****************************************************************************
@@ -134,7 +141,8 @@ void ChartRotationWidget::setRotation(double rot)
   *************************************************************************** */
 void ChartRotationWidget::onLeft() //const
 {
-    double newRotation = rotEdt->text().toDouble();
+    bool numOk;
+    double newRotation = rotEdt->text().replace(QRegExp("°"), " ").simplified().toDouble(&numOk);
     newRotation -= 10.0;
     emit chartHeading(newRotation);
 }
@@ -146,7 +154,8 @@ void ChartRotationWidget::onLeft() //const
   *************************************************************************** */
 void ChartRotationWidget::onRight() //const
 {
-    double newRotation = rotEdt->text().toDouble();
+    bool numOk;
+    double newRotation = rotEdt->text().replace(QRegExp("°"), " ").simplified().toDouble(&numOk);
     newRotation += 10.0;
     emit chartHeading(newRotation);
 }

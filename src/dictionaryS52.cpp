@@ -1,6 +1,6 @@
 #include "dictionaryS52.h"
 
-#include <QFile>
+#include <QtCore/QFile>
 
 #include <map>
 

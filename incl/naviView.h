@@ -1,17 +1,17 @@
 #ifndef NAVIVIEW_H
 #define NAVIVIEW_H
 
-#include <QGraphicsView>
-#include <QRectF>
-#include <QPushButton>
-#include <QLineEdit>
-#include <QFrame>
-#include <QComboBox>
+#include <QtGui/QGraphicsView>
+#include <QtGui/QPushButton>
+#include <QtGui/QLineEdit>
+#include <QtGui/QFrame>
+#include <QtGui/QComboBox>
 
 namespace Enc
 {
 class ChartProjectionComboBox;
 class ChartScaleWidget;
+class ChartRotationWidget;
 class ChartPositionWidget;
 class ChartEastNorthWidget;
 //*****************************************************************************
@@ -25,6 +25,9 @@ class NaviView : public QGraphicsView
 
 signals:
     void projectionChanged(int);
+    void scaleChanged(double);
+    void headingChanged(double);
+
 
 public:
 
@@ -49,12 +52,14 @@ protected:
 
     ChartProjectionComboBox * projectWgt;
     ChartScaleWidget * scaleWgt;
+    ChartRotationWidget * headWgt;
     ChartPositionWidget * posWgt;
     ChartEastNorthWidget * xyWgt;
 
-    //** current Transformation **
-    double myAngle;
-    double myScale;
+    //** rember current Transformation **
+    //kai: rest of tranformation paramters is taken directly from current view-transform
+    double myAngleZ;    //angle (z-dirction) mathematical, not a compass-angle!
+    double myScale;     //scale
 };
 
 

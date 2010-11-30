@@ -1,11 +1,11 @@
 #ifndef NAVINAVIWIDGETS_H
 #define NAVINAVIWIDGETS_H
 
-#include <QRectF>
-#include <QPushButton>
-#include <QLineEdit>
-#include <QFrame>
-#include <QComboBox>
+#include <QtCore/QRectF>
+#include <QtGui/QPushButton>
+#include <QtGui/QLineEdit>
+#include <QtGui/QFrame>
+#include <QtGui/QComboBox>
 
 namespace Enc
 {
@@ -28,6 +28,7 @@ public:
 
 public slots:
     void setScale(int scl);
+    void setScale(double scl);
 
 protected:
 
@@ -94,7 +95,7 @@ public:
 
 public slots:
 
-    void setRotation(double rotation);
+    void setHeading(double heading);
 
 private slots:
     void onLeft() ; //const;
@@ -139,6 +140,7 @@ public:
 
     ChartProjectionComboBox * projectWgt;
     ChartScaleWidget * scaleWgt;
+    ChartRotationWidget * headWgt;
     ChartPositionWidget * posWgt;
     ChartEastNorthWidget * xyWgt;
     ChartRotationWidget * rotWgt;

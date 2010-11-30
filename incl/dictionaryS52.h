@@ -4,9 +4,9 @@
 #include <vector>
 #include <map>
 
-#include <QString>
-#include <QPen>
-#include <QBrush>
+#include <QtCore/QString>
+#include <QtGui/QPen>
+#include <QtGui/QBrush>
 
 namespace Enc
 {

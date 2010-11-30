@@ -6,12 +6,12 @@
 #include "geo_projections.h"
 #include "naviNaviWidgets.h"
 
-#include<QPen>
-#include<QBrush>
-#include<QPolygonF>
-#include<QAbstractGraphicsShapeItem>
-#include<QGraphicsLinearLayout>
-#include<QMessageBox>
+#include<QtGui/QPen>
+#include<QtGui/QBrush>
+#include<QtGui//QPolygonF>
+#include<QtGui/QAbstractGraphicsShapeItem>
+#include<QtGui/QGraphicsLinearLayout>
+#include<QtGui/QMessageBox>
 
 using namespace Enc;
 

@@ -5,12 +5,12 @@
 
 #include <vector>
 
-#include <QWidget>
-#include <QGraphicsScene>
-#include <QAbstractGraphicsShapeItem>
-#include <QGraphicsProxyWidget>
-#include <QPen>
-#include <QRectF>
+#include <QtGui/QWidget>
+#include <QtGui/QGraphicsScene>
+#include <QtGui/QAbstractGraphicsShapeItem>
+#include <QtGui/QGraphicsProxyWidget>
+#include <QtGui/QPen>
+#include <QtCore/QRectF>
 
 namespace Enc
 {
