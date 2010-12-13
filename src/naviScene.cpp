@@ -8,7 +8,8 @@
 
 #include<QtGui/QPen>
 #include<QtGui/QBrush>
-#include<QtGui//QPolygonF>
+#include<QtGui/QPolygonF>
+#include<QtGui/QPainterPath>
 #include<QtGui/QAbstractGraphicsShapeItem>
 #include<QtGui/QGraphicsLinearLayout>
 #include<QtGui/QMessageBox>
@@ -86,11 +87,7 @@ NaviScene::~NaviScene()
 ****************************************************************************** */
 void NaviScene::onDrawCells()
 {
-    clearAll();  //remove old content
-
-    //QBrush brushRed(QColor(255,0,0), Qt::Dense3Pattern);
-    //QBrush brushGreen(QColor(0,255,0), Qt::Dense4Pattern);
-    //const int CURRFEAT = 1; //just 4 debug
+    clear();  //remove old Graphic Objects
 
     //**** get the position of the cells to initalize the projection ****
     DegBBox viewBBox;
@@ -154,31 +151,33 @@ void NaviScene::onDrawCells()
 ****************************************************************************** */
 const QAbstractGraphicsShapeItem * NaviScene::convertFeature(unsigned long, const FeatureS57 * feat, CellS57_Base * newCell)
 {
-    const QAbstractGraphicsShapeItem  * currItem;
-
     QPen myPen = presenterS57->getPen(feat);  //colorfull debugging
     QBrush myBrush = presenterS57->getBrush(feat);
 
+    QPainterPath featPPath;
+
+    //** outer Boundary **
     QPolygonF edgeQP;
     FeatureVertexIterator vertexIt(feat , newCell, projection);
     for (;vertexIt.valid(); ++vertexIt)
     {
         edgeQP.push_back(QPointF(vertexIt.getXorLon(), -1* vertexIt.getYorLat()));
     }
-    currItem = addPolygon(edgeQP, myPen) ; //, (red ? brushRed : brushGreen));
+    featPPath.addPolygon(edgeQP) ; 
     //** get inner boundaries **
     int innerCnt =0;
     while (vertexIt.nextBoundary())
     {
         QPolygonF innerBoundaryQP;
-myPen.setStyle(Qt::PenStyle(innerCnt %4 +2));
+//myPen.setStyle(Qt::PenStyle(innerCnt %4 +2));
         for (;vertexIt.valid(); ++vertexIt)
         {
             innerBoundaryQP.push_back(QPointF(vertexIt.getXorLon(), -1 * vertexIt.getYorLat()));
         }
-        currItem = addPolygon(innerBoundaryQP, myPen) ; //, (red ? brushRed : brushGreen));
+        featPPath.addPolygon(innerBoundaryQP) ; 
         ++innerCnt;
     }
+    QGraphicsPathItem * currItem = addPath(featPPath, myPen, myBrush);
     return currItem;
 }
 

@@ -52,7 +52,10 @@ QPen PresentationS52::getPen(const FeatureS57 * feat) const
     QPen myPen;
     myPen.setCosmetic(true);
 
+    //kai: just for debug, code not yet ready
+    ++cnt; //++ *(const_cast<int*>(&cnt)); //rem: we are const
     myPen.setColor(colorVecDebug[cnt % 13]); //kai: just for debug
+    
 
     return myPen;
 }
@@ -69,6 +72,14 @@ QBrush PresentationS52::getBrush(const FeatureS57 * feat) const
 
 
     const unsigned short objCode = feat->getFRID().getOBJL();
+
+    QBrush featBrush;
+
+    //** for debug only: default fantasy color for Objects not yet in pres-lib: **
+    QColor dgbColor = colorVecDebug[cnt % 13];
+    dgbColor.setAlpha(100);
+    featBrush.setColor(dgbColor); 
+
     //**** Group 1 feature ****
     if ( ObjAttrDictionaryS57::IsGroup1(objCode))
     {
@@ -84,8 +95,12 @@ QBrush PresentationS52::getBrush(const FeatureS57 * feat) const
     }
 
     //**** Group 2 feature ****
-
-    return QBrush();
+    else
+    {
+        
+        
+    }
+    return featBrush;
 }
 
 

@@ -25,7 +25,8 @@ public:
     QBrush getBrush(const FeatureS57 * feat) const;
 
 private:
-    int cnt;
+    //** just for colorfull debugging: **
+    mutable int cnt; //how often a pen has been requested until now
     std::vector<QColor> colorVecDebug;  //just used to make chart colorfull for easier debugging
 
     //** group 1 Objects have predefined values **

@@ -1,6 +1,6 @@
 EncLib/Release/
 EncLib/Debug/
-EncLib_vc2008/debug/
-EncLib_vc2008/release/
+EncLib_vc2008/Debug/
+EncLib_vc2008/Release/
 moc_debug
 moc_release/

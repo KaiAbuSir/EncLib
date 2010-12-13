@@ -402,7 +402,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc"
-						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp"
+						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp&#x0D;&#x0A;"
 						Outputs=" $(ConfigurationName)\moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -412,7 +412,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc wird ausgeführt."
-						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp"
+						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp&#x0D;&#x0A;"
 						Outputs="$(ConfigurationName)\moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -426,7 +426,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc"
-						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp"
+						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp&#x0D;&#x0A;"
 						Outputs="$(ConfigurationName)\moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -436,7 +436,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc"
-						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp"
+						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp&#x0D;&#x0A;"
 						Outputs="$(ConfigurationName)\moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -450,7 +450,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc"
-						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp"
+						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp&#x0D;&#x0A;"
 						Outputs=" $(ConfigurationName)\moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -460,7 +460,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc"
-						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp"
+						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp&#x0D;&#x0A;"
 						Outputs=" $(ConfigurationName)\moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -545,7 +545,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc"
-						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp"
+						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp&#x0D;&#x0A;"
 						Outputs="$(ConfigurationName)\moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -555,7 +555,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc"
-						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp"
+						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp&#x0D;&#x0A;"
 						Outputs="$(ConfigurationName)\moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -569,7 +569,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc"
-						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp"
+						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp&#x0D;&#x0A;"
 						Outputs="$(ConfigurationName)\moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -579,7 +579,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc"
-						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp"
+						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp&#x0D;&#x0A;"
 						Outputs="$(ConfigurationName)\moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -597,7 +597,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc"
-						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp"
+						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp&#x0D;&#x0A;"
 						Outputs="$(ConfigurationName)\moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -607,7 +607,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc"
-						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp"
+						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp&#x0D;&#x0A;"
 						Outputs="$(ConfigurationName)\moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -621,7 +621,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc"
-						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp"
+						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp&#x0D;&#x0A;"
 						Outputs="$(ConfigurationName)\moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -631,7 +631,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="moc"
-						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp"
+						CommandLine="moc   $(InputPath)  -o $(ConfigurationName)\moc_$(InputName).cpp&#x0D;&#x0A;"
 						Outputs="$(ConfigurationName)\moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -662,7 +662,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="rcc   $(InputPath)  -o $(ConfigurationName)\$(InputName).cpp"
+						Description="running rcc, Qts resource compiler"
+						CommandLine="rcc   $(InputPath)  -o $(ConfigurationName)\$(InputName).cpp&#x0D;&#x0A;"
 						Outputs="$(ConfigurationName)\$(InputName).cpp"
 					/>
 				</FileConfiguration>
@@ -671,7 +672,8 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="rcc   $(InputPath)  -o $(ConfigurationName)\$(InputName).cpp"
+						Description="running rcc, Qts resource compiler"
+						CommandLine="rcc   $(InputPath)  -o $(ConfigurationName)\$(InputName).cpp&#x0D;&#x0A;"
 						Outputs="$(ConfigurationName)\$(InputName).cpp"
 					/>
 				</FileConfiguration>
