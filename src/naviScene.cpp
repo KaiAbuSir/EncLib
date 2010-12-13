@@ -5,6 +5,7 @@
 #include "boundingbox_degrees.h"
 #include "geo_projections.h"
 #include "naviNaviWidgets.h"
+#include "naviSceneItems.h"
 
 #include<QtGui/QPen>
 #include<QtGui/QBrush>
@@ -104,11 +105,12 @@ void NaviScene::onDrawCells()
         projection->latLon2xy(viewBBox.SLAT, viewBBox.WLON, xMin, yMin);
         projection->latLon2xy(viewBBox.NLAT, viewBBox.ELON, xMax, yMax);
     }
-    bool red = true;
-    const QAbstractGraphicsShapeItem  * currItem = 0;
+    
+    int itemCnt = 0;
+    const QGraphicsItem  * currItem = 0;
 
     QRectF viewBoundingRect;
-    for (uint cI = 0; cI < cells.size(); ++cI, red = !red)
+    for (uint cI = 0; cI < cells.size(); ++cI)
     {
         CellS57_Base * newCell =cells[cI];
         if (!newCell) continue;
@@ -116,19 +118,18 @@ void NaviScene::onDrawCells()
 
         try
         {
-            int cnt = 0;
             const std::map< unsigned long, FeatureS57 *> & cellFeats = newCell->getFeatures();
             std::map< unsigned long, FeatureS57 *>::const_iterator fIt = cellFeats.begin();
             for (; fIt != cellFeats.end(); ++fIt)
             {
-                if (fIt->second->getFRID().getPRIM() == 3 ) //&& fIt->second->getFRID().getGRUP() == 1 )
-                {
                     //if (cnt != CURRFEAT) {++cnt; continue;}  //debug only
                     currItem = convertFeature(fIt->first, fIt->second, newCell);
-                    viewBoundingRect = viewBoundingRect.unite(currItem->boundingRect());
-                    //if (cnt == CURRFEAT) break;  //debug only
-                    ++cnt;
-                }
+                    if (currItem)
+                    {
+                        viewBoundingRect = viewBoundingRect.unite(currItem->boundingRect());
+                        //if (cnt == CURRFEAT) break;  //debug only
+                        ++itemCnt;
+                    }
             }
         }
         catch(const QString & msg)
@@ -146,10 +147,60 @@ void NaviScene::onDrawCells()
 //*****************************************************************************
 /// Convert a cell Feature into a SceneItem
 /*!
-* kai: for now, just draw polygons,
-* later: draw shapItems / pixmap items
+* kai: not yet ready at all!
 ****************************************************************************** */
-const QAbstractGraphicsShapeItem * NaviScene::convertFeature(unsigned long, const FeatureS57 * feat, CellS57_Base * newCell)
+const QGraphicsItem * NaviScene::convertFeature(unsigned long RecId, const FeatureS57 * feat, CellS57_Base * newCell)
+{
+    QGraphicsItem * newItem = 0;
+    if      (feat->getFRID().getPRIM() == 1) newItem = convertFeaturePoint(RecId, feat, newCell);
+    else if (feat->getFRID().getPRIM() == 2) newItem = convertFeatureLine(RecId, feat, newCell);
+    else if (feat->getFRID().getPRIM() == 3) newItem = convertFeatureArea(RecId, feat, newCell);
+    if (newItem) newItem->setZValue(presenterS57->getPriority(feat));
+    return newItem;
+}
+
+//*****************************************************************************
+/// Convert a cell Feature with Point Geometry into a SceneItem
+/*!
+* rem: Point Symbols should have same size, independent of scale!
+*
+* kai: for now, just draw Simple Symbols,
+* later: draw shapItems / pixmap items depending on Feature and Attributes
+****************************************************************************** */
+QGraphicsItem * NaviScene::convertFeaturePoint(unsigned long RecId, const FeatureS57 * feat, CellS57_Base * newCell)
+{
+    return 0;
+}
+
+//*****************************************************************************
+/// Convert a cell Feature with Line Geometry into a SceneItem
+/*!
+* kai: for now, just draw polygons,
+* later: draw shapItems/PolygoneItems depending on Feature and Attributes
+****************************************************************************** */
+QAbstractGraphicsShapeItem * NaviScene::convertFeatureLine(unsigned long RecId, const FeatureS57 * feat, CellS57_Base * newCell)
+{
+    QPen myPen = presenterS57->getPen(feat);  //colorfull debugging
+   
+    //** Lines have outer Boundary only, of course **
+    QPolygonF edgeQP;
+    FeatureVertexIterator vertexIt(feat , newCell, projection);
+    for (;vertexIt.valid(); ++vertexIt)
+    {
+        edgeQP.push_back(QPointF(vertexIt.getXorLon(), -1* vertexIt.getYorLat()));
+    }
+    QGraphicsPolygonItem  * currItem = addPolygon(edgeQP, myPen);
+    
+    return currItem;
+}
+
+//*****************************************************************************
+/// Convert a cell Feature with Area-Geometry into a SceneItem
+/*!
+* kai: for now, just draw simple Shape Items,
+* later: draw shapItems depending on FeatureClass/Attributes
+****************************************************************************** */
+QAbstractGraphicsShapeItem * NaviScene::convertFeatureArea(unsigned long RecId, const FeatureS57 * feat, CellS57_Base * newCell)
 {
     QPen myPen = presenterS57->getPen(feat);  //colorfull debugging
     QBrush myBrush = presenterS57->getBrush(feat);
@@ -177,8 +228,24 @@ const QAbstractGraphicsShapeItem * NaviScene::convertFeature(unsigned long, cons
         featPPath.addPolygon(innerBoundaryQP) ; 
         ++innerCnt;
     }
-    QGraphicsPathItem * currItem = addPath(featPPath, myPen, myBrush);
-    return currItem;
+
+    QGraphicsPathItem * areaItem = 0;
+    //**** Depare/Drgare are special, because their colors may change later ****
+    if (ObjAttrDictionaryS57::codeDEPARE == feat->getFRID().getOBJL() ||
+        ObjAttrDictionaryS57::codeDRGARE == feat->getFRID().getOBJL())
+    {
+        GraphicsDepareItem* depItem = new GraphicsDepareItem(RecId);
+        depItem->setBrush(myBrush);
+        depItem->setPen(myPen);
+        addItem(depItem);
+        areaItem = depItem;
+    }
+    else
+    {
+        areaItem = addPath(featPPath, myPen, myBrush);
+        //if (!ObjAttrDictionaryS57::IsGroup1(feat->getFRID().getOBJL()))
+    }
+    return areaItem;
 }
 
 //*****************************************************************************

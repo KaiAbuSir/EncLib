@@ -1,4 +1,4 @@
-#include "dictionaryS52.h"
+#include "dictionaryS57.h"
 
 #include <QtCore/QFile>
 
@@ -8,100 +8,6 @@
 #include "cell_records.h"
 
 using namespace Enc;
-
-//*****************************************************************************
-/// Dictionary - just a dummy, will become a real dict later
-/*!
-  *
-  *************************************************************************** */
-PresentationS52::PresentationS52() : cnt(0)
-{
-    //** Brushes for Group1 Objects **
-    depareShallowBrush = QBrush(QColor(187,241,251));   //kais hell blau, nur zum testen
-    depareNormalBrush = QBrush(QColor(27,137,217));     //kais mittelblau, nur zum testen
-    depareDeepBrush = QBrush(QColor(18,47,146));        //kais dunkelblau, nur zum testen
-
-    lndareBrush = QBrush(QColor(231,164,24)); //kais braun, nur zum testen
-
-
-
-
-    //**** just used 4 debug ****
-    colorVecDebug.push_back((QColor(0,0,0)));
-    colorVecDebug.push_back((QColor(125,0,0)));
-    colorVecDebug.push_back((QColor(250,0,0)));
-    colorVecDebug.push_back((QColor(0,125,0)));
-    colorVecDebug.push_back((QColor(0,250,0)));
-    colorVecDebug.push_back((QColor(0,0,125)));
-    colorVecDebug.push_back((QColor(0,0,250)));
-    colorVecDebug.push_back((QColor(20,50,100)));
-    colorVecDebug.push_back((QColor(100,50,20)));
-    colorVecDebug.push_back((QColor(50,100,20)));
-    colorVecDebug.push_back((QColor(20,100,50)));
-    colorVecDebug.push_back((QColor(50,20,100)));
-    colorVecDebug.push_back((QColor(100,20,50)));
-}
-//*****************************************************************************
-/// Return the pen to draw a line-geometry item
-/*!
-  *
-  *************************************************************************** */
-QPen PresentationS52::getPen(const FeatureS57 * feat) const
-{
-    if (!feat) throw "Internal Error: No Feature Pointer";
-    QPen myPen;
-    myPen.setCosmetic(true);
-
-    //kai: just for debug, code not yet ready
-    ++cnt; //++ *(const_cast<int*>(&cnt)); //rem: we are const
-    myPen.setColor(colorVecDebug[cnt % 13]); //kai: just for debug
-    
-
-    return myPen;
-}
-
-//*****************************************************************************
-/// Return the Brush to fill the shape of a area-geometry item
-/*!
-  *
-  *************************************************************************** */
-QBrush PresentationS52::getBrush(const FeatureS57 * feat) const
-{
-    //**** if no area-feat -> no brush needed ****
-    if (feat->getFRID().getPRIM() != 3) return QBrush();
-
-
-    const unsigned short objCode = feat->getFRID().getOBJL();
-
-    QBrush featBrush;
-
-    //** for debug only: default fantasy color for Objects not yet in pres-lib: **
-    QColor dgbColor = colorVecDebug[cnt % 13];
-    dgbColor.setAlpha(100);
-    featBrush.setColor(dgbColor); 
-
-    //**** Group 1 feature ****
-    if ( ObjAttrDictionaryS57::IsGroup1(objCode))
-    {
-        if (objCode == ObjAttrDictionaryS57::codeDEPARE)
-        {
-            const std::map<unsigned short, FieldAttr> & featAttribs = feat->getAttribs();
-
-        }
-        else if (objCode == ObjAttrDictionaryS57::codeDRGARE)
-        {
-
-        }
-    }
-
-    //**** Group 2 feature ****
-    else
-    {
-        
-        
-    }
-    return featBrush;
-}
 
 
 //*****************************************************************************
@@ -134,6 +40,46 @@ QString ObjAttrDictionaryS57::getAttrToken4Code(unsigned int code) const
     return QString::null;
 }
 
+//*****************************************************************************
+/// Convenience Method to get DRVAL1 and DRVAL2
+/*!
+  * returns true only if both values are correct
+  *************************************************************************** */
+bool ObjAttrDictionaryS57::getDRVAL12(double & drval1, double & drval2, const std::map<unsigned short, FieldAttr> & attrMap)
+{
+    if (!getDoubleVal(drval1, attrMap, aCodeDRVAL1)) return false;
+    if (!getDoubleVal(drval1, attrMap, aCodeDRVAL2)) return false;
+    return true;
+}
+
+//*****************************************************************************
+/// Returns the value of a double-attribute
+/*!
+  * returns false if attribute not found or conversion fails
+  *************************************************************************** */
+bool ObjAttrDictionaryS57::getDoubleVal(double & val, const std::map<unsigned short, FieldAttr> & attrMap, unsigned short key)
+{
+    std::map<unsigned short, FieldAttr>::const_iterator vIt = attrMap.find(key);
+    if (vIt == attrMap.end()) return false;
+    bool valOk;
+    val = vIt->second.getValue().toDouble(&valOk);
+    return valOk;
+}
+
+bool ObjAttrDictionaryS57::getIntVal(int & val, const std::map<unsigned short, FieldAttr> & attrMap, unsigned short key)
+{
+    std::map<unsigned short, FieldAttr>::const_iterator vIt = attrMap.find(key);
+    if (vIt == attrMap.end()) return false;
+    bool valOk;
+    val = vIt->second.getValue().toInt(&valOk);
+    return valOk;
+}
+
+//*****************************************************************************
+///
+/*!
+  *
+  *************************************************************************** */
 void ObjAttrDictionaryS57::readAttributeCodes(QString fileName)
 {
     QFile attrFile(fileName);
@@ -166,6 +112,11 @@ void ObjAttrDictionaryS57::readAttributeCodes(QString fileName)
     attrFile.close();
 }
 
+//*****************************************************************************
+///
+/*!
+  *
+  *************************************************************************** */
 void ObjAttrDictionaryS57::readFeatureCodes(QString fileName)
 {
     QFile featFile(fileName);

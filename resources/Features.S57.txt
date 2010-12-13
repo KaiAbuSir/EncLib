@@ -1,4 +1,26 @@
+#VERSION 0.1
 #S-57 Featurs Classes, comma-seperated: Feature-Id, Token, Explanation
+#Not yet ready !!!
 1, ADMARE, Administration Area
+2, AIRARE, Airport/airfield
 3, ACHBRT, Anchor berth
 4, ACHARE, Anchorage area
+5, BCNCAR, Beacon cardinal
+6, BCNISD, Beacon isolated danger
+7, BCNLAT, Beacon lateral
+8, BCNSAW, Beacon safe water
+9, BCNSPP, Beacon special purpose/general
+10, BERTHS, Berth
+11, BRIDGE, Bridge
+12, BUISGL, Building single
+13, BUAARE, Built-up area
+14, BOYCAR, Buoy cardinal
+15, BOYINB, Buoy installation
+16, BOYISD, Buoy isolated danger
+17, BOYLAT, Buoy lateral
+18, BOYSAW, Buoy safe water
+19, BOYSPP, Buoy special purpose/general
+
+
+161, ARCSLN, Archipelagic Sea Lane
+162, ASLXIS, Archipelagic Sea Lane Axis

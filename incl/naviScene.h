@@ -1,7 +1,8 @@
 #ifndef NAVISCENE_H
 #define NAVISCENE_H
 
-#include "dictionaryS52.h"
+#include "dictionaryS57.h"
+#include "presentationS52.h"
 
 #include <vector>
 
@@ -61,7 +62,11 @@ protected:
 
 
     //**** Cell-drawing methods ****
-    const QAbstractGraphicsShapeItem * convertFeature(unsigned long, const FeatureS57 * feat, CellS57_Base *);
+    const QGraphicsItem * convertFeature(unsigned long, const FeatureS57 * feat, CellS57_Base *);
+    QGraphicsItem *              convertFeaturePoint(unsigned long, const FeatureS57 * feat, CellS57_Base *);
+    QAbstractGraphicsShapeItem * convertFeatureLine(unsigned long, const FeatureS57 * feat, CellS57_Base *);
+    QAbstractGraphicsShapeItem * convertFeatureArea(unsigned long, const FeatureS57 * feat, CellS57_Base *);
+
 
     //**** navigation widgets on the scene (added by using proxy-widgets) ****
     ChartProjectionComboBox * projectWgt;

@@ -6,6 +6,13 @@
 5, BURDEP, Buried depth
 6, CALSGN, Call sign
 7, CATAIR, Category of airport/airfield
+8, CATACH, Category of anchorage
+9, CATBRG, Category of bridge
+10, CATBUA, Category of built-up area
 
+
+
+87, DRVAL1, Depth range value 1
+88, DRVAL2, Depth range value 2
 
 188, CAT_TS, Category of Tidal stream

@@ -256,7 +256,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\dictionaryS52.cpp"
+				RelativePath="..\src\dictionaryS57.cpp"
 				>
 			</File>
 			<File
@@ -301,6 +301,10 @@
 			</File>
 			<File
 				RelativePath="..\src\naviWidget.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\presentationS52.cpp"
 				>
 			</File>
 			<File
@@ -466,7 +470,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\incl\dictionaryS52.h"
+				RelativePath="..\incl\dictionaryS57.h"
 				>
 			</File>
 			<File
@@ -635,6 +639,10 @@
 						Outputs="$(ConfigurationName)\moc_$(InputName).cpp"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\incl\presentationS52.h"
+				>
 			</File>
 			<File
 				RelativePath="..\incl\s57updater.h"

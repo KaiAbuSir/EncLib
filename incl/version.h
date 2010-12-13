@@ -13,8 +13,8 @@ namespace Enc
 {
     const int MajorVersion = 0;
     const int MinorVersion = 2;
-    const int SubMinorVers = 0;
-    const char * EncLibName "ENClib";
+    const int SubMinorVers = 1;
+    const char * EncLibName = "ENClib";
 #ifdef _DEBUG
     QString VersionString() {return QString("%1.%2.%3 DEBUG").arg(MajorVersion).arg(MinorVersion).arg(SubMinorVers);}
 #else

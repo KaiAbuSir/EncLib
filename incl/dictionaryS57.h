@@ -1,5 +1,5 @@
-#ifndef DICTIONARYS52_H
-#define DICTIONARYS52_H
+#ifndef DICTIONARY_S57_H
+#define DICTIONARY_S57_H
 
 #include <vector>
 #include <map>
@@ -11,33 +11,12 @@
 namespace Enc
 {
 class FeatureS57;
+class FieldAttr;
 
 //*****************************************************************************
-/// Dictionay - just a dummy for now - will become a real dict later
+/// Dictionary - holds codes, Tokens ... etc of Features and Attributes
 /*!
-  *
-  *************************************************************************** */
-class PresentationS52
-{
-public:
-    PresentationS52();
-    QPen getPen(const FeatureS57 * feat) const;
-    QBrush getBrush(const FeatureS57 * feat) const;
-
-private:
-    //** just for colorfull debugging: **
-    mutable int cnt; //how often a pen has been requested until now
-    std::vector<QColor> colorVecDebug;  //just used to make chart colorfull for easier debugging
-
-    //** group 1 Objects have predefined values **
-    QBrush depareShallowBrush, depareNormalBrush, depareDeepBrush;
-    QBrush lndareBrush;
-};
-
-//*****************************************************************************
-/// Dictionay - just a dummy for now - will become a real dict later
-/*!
-  *
+  * Just a dummy until now
   *************************************************************************** */
 class ObjAttrDictionaryS57
 {
@@ -52,6 +31,10 @@ public:
 
     QString getFeatToken4Code(unsigned int code) const;
     QString getAttrToken4Code(unsigned int code) const;
+
+    static bool getDRVAL12(double & drval1, double & drval2, const std::map<unsigned short, FieldAttr> & attrMap);
+    static bool getDoubleVal(double & val, const std::map<unsigned short, FieldAttr> & attrMap, unsigned short key);
+    static bool getIntVal(int & val, const std::map<unsigned short, FieldAttr> & attrMap, unsigned short key);
 
 private:
     void readAttributeCodes(QString fileName);
@@ -75,6 +58,15 @@ public:
     static const unsigned short codeLNDARE = 71;
     static const unsigned short codePONTON = 95;
     static const unsigned short codeUNSARE = 154;
+
+    //Group2 - Other important object codes is s57
+    static const unsigned short codeM_COVR = 302;
+
+    //** important Attribute Codes in S57:
+    static const unsigned short aCodeCATCOV = 18;
+    static const unsigned short aCodeDRVAL1 = 87;
+    static const unsigned short aCodeDRVAL2 = 88;
+    
 };
 
 }
