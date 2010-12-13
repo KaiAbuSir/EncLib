@@ -48,7 +48,7 @@ QString ObjAttrDictionaryS57::getAttrToken4Code(unsigned int code) const
 bool ObjAttrDictionaryS57::getDRVAL12(double & drval1, double & drval2, const std::map<unsigned short, FieldAttr> & attrMap)
 {
     if (!getDoubleVal(drval1, attrMap, aCodeDRVAL1)) return false;
-    if (!getDoubleVal(drval1, attrMap, aCodeDRVAL2)) return false;
+    if (!getDoubleVal(drval2, attrMap, aCodeDRVAL2)) return false;
     return true;
 }
 

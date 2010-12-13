@@ -147,13 +147,14 @@ void NaviScene::onDrawCells()
 //*****************************************************************************
 /// Convert a cell Feature into a SceneItem
 /*!
-* kai: not yet ready at all!
+* convert the feature into a shape in the graphic view
+* assign a priority (z-value)
 ****************************************************************************** */
 const QGraphicsItem * NaviScene::convertFeature(unsigned long RecId, const FeatureS57 * feat, CellS57_Base * newCell)
 {
     QGraphicsItem * newItem = 0;
     if      (feat->getFRID().getPRIM() == 1) newItem = convertFeaturePoint(RecId, feat, newCell);
-    else if (feat->getFRID().getPRIM() == 2) newItem = convertFeatureLine(RecId, feat, newCell);
+    //else if (feat->getFRID().getPRIM() == 2) newItem = convertFeatureLine(RecId, feat, newCell);  //kai disabled4debug
     else if (feat->getFRID().getPRIM() == 3) newItem = convertFeatureArea(RecId, feat, newCell);
     if (newItem) newItem->setZValue(presenterS57->getPriority(feat));
     return newItem;
@@ -234,16 +235,16 @@ QAbstractGraphicsShapeItem * NaviScene::convertFeatureArea(unsigned long RecId, 
     if (ObjAttrDictionaryS57::codeDEPARE == feat->getFRID().getOBJL() ||
         ObjAttrDictionaryS57::codeDRGARE == feat->getFRID().getOBJL())
     {
-        GraphicsDepareItem* depItem = new GraphicsDepareItem(RecId);
-        depItem->setBrush(myBrush);
-        depItem->setPen(myPen);
+        GraphicsDepareItem* depItem = new GraphicsDepareItem(RecId, featPPath, myPen, myBrush);
         addItem(depItem);
         areaItem = depItem;
     }
+    //** all other areas: **
     else
     {
-        areaItem = addPath(featPPath, myPen, myBrush);
-        //if (!ObjAttrDictionaryS57::IsGroup1(feat->getFRID().getOBJL()))
+        GraphicsAreaFeatItem * areaFeatItem = new GraphicsAreaFeatItem(RecId, featPPath, myPen, myBrush);
+        addItem(areaFeatItem);
+        areaItem = areaFeatItem;
     }
     return areaItem;
 }

@@ -192,15 +192,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\src\cell_records.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\cell_records_fields_header.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\src\cell_reocord_fields.cpp"
+				RelativePath="..\src\cell_record_fields.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -218,6 +210,14 @@
 						Name="VCCLCompilerTool"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\cell_records.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\cell_records_fields_header.cpp"
+				>
 			</File>
 			<File
 				RelativePath="..\src\cell_s57.cpp"
